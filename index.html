@@ -959,7 +959,7 @@ html, body {
 
       <div class="org-center">
         <div class="oc-l1">AIS Windows</div>
-        <div class="oc-l2" id="zoneDisplay">✦ &nbsp;Channel Sales Excellence&nbsp; ✦</div>
+        <div class="oc-l2">✦ &nbsp;Channel Sales Excellence&nbsp; ✦</div>
       </div>
 
       <div class="recognition-pill" id="badgePill">✦ TOP PERFORMER ✦</div>
@@ -1318,7 +1318,9 @@ function updateCertificate() {
   document.getElementById('taglineText').textContent = sig.tagline;
 
   // Zone display in org center
-  document.getElementById('zoneDisplay').innerHTML = '\u2726 &nbsp;Channel Sales Excellence&nbsp; \u2726 &nbsp;·&nbsp; ' + zone + ' Zone';
+  // Append zone to extra-note
+const zoneText = '&nbsp;|&nbsp; ' + zone + ' Zone';
+document.getElementById('extraNote').innerHTML = sig.extraNote + zoneText;
 
   // Recipient name
   document.getElementById('certRecipient').textContent = name;
