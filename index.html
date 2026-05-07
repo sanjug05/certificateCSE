@@ -638,6 +638,11 @@ html, body {
   align-items: center;
   gap: 3px;
   flex-shrink: 0;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
 }
 .footer-seal {
   width: 60px; height: 60px;
@@ -801,6 +806,18 @@ html, body {
   </div>
 
   <div class="field-group">
+    <label for="zoneSelect">Zone</label>
+    <select id="zoneSelect">
+      <option value="RON">RON</option>
+      <option value="South">South</option>
+      <option value="East">East</option>
+      <option value="West">West</option>
+      <option value="Delhi NCR">Delhi NCR</option>
+      <option value="Pan India">Pan India</option>
+    </select>
+  </div>
+
+  <div class="field-group">
     <label for="recipientName">Recipient Name</label>
     <input type="text" id="recipientName" placeholder="Full Name" value="Rahul Sharma"/>
   </div>
@@ -942,7 +959,7 @@ html, body {
 
       <div class="org-center">
         <div class="oc-l1">AIS Windows</div>
-        <div class="oc-l2">✦ &nbsp;Channel Sales Excellence&nbsp; ✦</div>
+        <div class="oc-l2" id="zoneDisplay">✦ &nbsp;Channel Sales Excellence&nbsp; ✦</div>
       </div>
 
       <div class="recognition-pill" id="badgePill">✦ TOP PERFORMER ✦</div>
@@ -1287,6 +1304,7 @@ function updateCertificate() {
   const name   = document.getElementById('recipientName').value.trim() || 'Recipient Name';
   const period = document.getElementById('periodText').value.trim()    || '[Period]';
   const date   = document.getElementById('recogDate').value.trim()     || '\u2014';
+  const zone   = document.getElementById('zoneSelect').value;
 
   const sig = SIGNATORIES[type];
 
@@ -1298,6 +1316,9 @@ function updateCertificate() {
 
   // Tagline
   document.getElementById('taglineText').textContent = sig.tagline;
+
+  // Zone display in org center
+  document.getElementById('zoneDisplay').innerHTML = '\u2726 &nbsp;Channel Sales Excellence&nbsp; \u2726 &nbsp;·&nbsp; ' + zone + ' Zone';
 
   // Recipient name
   document.getElementById('certRecipient').textContent = name;
@@ -1349,7 +1370,7 @@ function updateCertificate() {
 }
 
 // Listeners
-['winnerType','recipientName','periodText','recogDate'].forEach(id => {
+['winnerType','zoneSelect','recipientName','periodText','recogDate'].forEach(id => {
   document.getElementById(id).addEventListener('input', updateCertificate);
 });
 
