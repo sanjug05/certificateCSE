@@ -218,20 +218,26 @@ html, body {
   font-family: 'Cinzel', serif;
 }
 
-/* TIER PILL — the single consistent tier device (always top-right) */
+/* TIER PILL + ZONE TAG — one consistent stacked device, always top-right */
+.pill-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
 .recognition-pill {
-  background: linear-gradient(135deg, rgba(200,163,74,0.14), rgba(200,163,74,0.06));
-  border: 1.5px solid rgba(200,163,74,0.55);
+  background: linear-gradient(135deg, var(--tg-fill-strong, rgba(200,163,74,0.16)), var(--tg-fill-soft, rgba(200,163,74,0.05)));
+  border: 1.5px solid var(--tg-border-tint, rgba(200,163,74,0.5));
   border-radius: 60px; padding: 6px 18px;
   font-family: 'Cinzel', serif; font-weight: 700; font-size: 9.5px;
   letter-spacing: 2px; text-transform: uppercase; color: var(--tn);
-  white-space: nowrap; flex-shrink: 0;
+  white-space: nowrap;
+}
+.zone-tag {
+  font-family: 'Inter', sans-serif; font-size: 8px; font-weight: 700;
+  letter-spacing: 1.6px; text-transform: uppercase; color: var(--tn-lt);
+  white-space: nowrap; padding-right: 4px;
 }
 
 /* ORNAMENT SEPARATOR */
 .orn-row { display: flex; align-items: center; gap: 5px; margin: 3px 0; flex-shrink: 0; }
 .orn-row .ol { flex: 1; height: 1.5px; background: linear-gradient(90deg, transparent, var(--tg), var(--tg-lt), var(--tg), transparent); }
-.orn-row .ol.thin { height: 0.5px; background: linear-gradient(90deg, transparent, rgba(200,163,74,.45), transparent); }
+.orn-row .ol.thin { height: 0.5px; background: linear-gradient(90deg, transparent, var(--tg-border-tint, rgba(200,163,74,.45)), transparent); }
 .orn-row .os { font-size: 8px; color: var(--tg); flex-shrink: 0; line-height: 1; }
 .orn-row .od { width: 8px; height: 8px; background: var(--tg); transform: rotate(45deg); flex-shrink: 0; box-shadow: 0 0 5px var(--tg-glow); }
 
@@ -300,7 +306,7 @@ html, body {
 
 .name-underline-wrap {
   display: flex; align-items: center; justify-content: center; gap: 10px;
-  margin: 0 auto 10px; width: 160mm; max-width: 78%;
+  margin: 0 auto 10px; width: var(--uw, 160mm); max-width: 78%;
 }
 .nu-diamond { width: 11px; height: 11px; background: var(--tg); transform: rotate(45deg); flex-shrink: 0; box-shadow: 0 0 6px var(--tg-glow); }
 .nu-line { flex: 1; height: 1.5px; background: linear-gradient(90deg, var(--tg), var(--tg-lt), var(--tg)); }
@@ -313,15 +319,15 @@ html, body {
 }
 .achievement-desc strong {
   font-style: normal; font-weight: 700; color: var(--tn);
-  background: rgba(200,163,74,0.14); padding: 1px 8px; border-radius: 30px; white-space: nowrap;
+  background: var(--tg-fill-strong, rgba(200,163,74,0.16)); padding: 1px 8px; border-radius: 30px; white-space: nowrap;
 }
 
 /* TIER BADGE */
 .period-badge {
   display: inline-flex; align-items: center; gap: 10px;
   padding: 7px 32px; border-radius: 60px;
-  background: linear-gradient(120deg, rgba(200,163,74,0.18) 0%, rgba(200,163,74,0.06) 100%);
-  border: 1.5px solid rgba(200,163,74,0.52);
+  background: linear-gradient(120deg, var(--tg-fill-strong, rgba(200,163,74,0.18)) 0%, var(--tg-fill-soft, rgba(200,163,74,0.05)) 100%);
+  border: 1.5px solid var(--tg-border-tint, rgba(200,163,74,0.52));
   font-family: 'Cinzel', serif; font-weight: 700; font-size: 10.5px;
   letter-spacing: 2.5px; text-transform: uppercase; color: var(--tn-dk);
   position: relative;
@@ -332,7 +338,7 @@ html, body {
 }
 .period-badge::before { left: -12px; border-right: 12px solid var(--tg); opacity: 0.55; }
 .period-badge::after  { right: -12px; border-left: 12px solid var(--tg); opacity: 0.55; }
-.pd-dot { width: 7px; height: 7px; background: var(--tg); border-radius: 50%; box-shadow: 0 0 0 3px rgba(200,163,74,0.2); }
+.pd-dot { width: 7px; height: 7px; background: var(--tg); border-radius: 50%; box-shadow: 0 0 0 3px var(--tg-fill-soft, rgba(200,163,74,0.2)); }
 
 .extra-note {
   margin-top: 9px; font-size: 9.5px; color: var(--muted);
@@ -390,12 +396,11 @@ html, body {
 .date-value { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 700; color: var(--tn-dk); margin-top: 3px; letter-spacing: 0.5px; }
 .fy-label { font-size: 8.5px; color: var(--muted); margin-top: 3px; font-weight: 500; letter-spacing: 0.5px; }
 
-/* YEARLY laurel flanks */
-.yearly-laurel-left, .yearly-laurel-right {
-  display: none; position: absolute; top: 50%; transform: translateY(-50%); pointer-events: none;
-}
-.yearly-laurel-left  { left: 0; }
-.yearly-laurel-right { right: 0; transform: translateY(-50%) scaleX(-1); }
+/* NAME ROW — recipient name plus (yearly-only) flanking laurels, all on one flex baseline
+   so the wreath always hugs the name itself rather than centering on the whole honor block */
+.name-row { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.yearly-laurel-left, .yearly-laurel-right { display: none; flex-shrink: 0; pointer-events: none; }
+.yearly-laurel-right { transform: scaleX(-1); }
 
 /* ================================================================
    PRINT
@@ -539,39 +544,11 @@ html, body {
   <div class="frame-outer"></div>
   <div class="frame-middle"></div>
 
-  <!-- CORNER ORNAMENTS -->
-  <svg class="corner corner-tl" viewBox="0 0 62 62" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M2 2L62 2" stroke="#c8a34a" stroke-width="2"/><path d="M2 2L2 62" stroke="#c8a34a" stroke-width="2"/>
-    <circle cx="2" cy="2" r="4" fill="#c8a34a"/><circle cx="2" cy="2" r="7" fill="none" stroke="#c8a34a" stroke-width="0.7" opacity="0.5"/>
-    <path d="M14 2L14 11 M2 14L11 14" stroke="#c8a34a" stroke-width="1.2"/><path d="M24 2L24 7 M2 24L7 24" stroke="#c8a34a" stroke-width="0.8" opacity="0.6"/>
-    <path d="M34 2L34 5 M2 34L5 34" stroke="#c8a34a" stroke-width="0.6" opacity="0.35"/>
-    <circle cx="14" cy="14" r="2" fill="#e7d39a"/><circle cx="22" cy="14" r="1.2" fill="#e7d39a" opacity="0.55"/><circle cx="14" cy="22" r="1.2" fill="#e7d39a" opacity="0.55"/>
-    <path d="M10 10L22 10L10 22Z" fill="none" stroke="#c8a34a" stroke-width="0.6" opacity="0.45"/>
-  </svg>
-  <svg class="corner corner-tr" viewBox="0 0 62 62" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M2 2L62 2" stroke="#c8a34a" stroke-width="2"/><path d="M2 2L2 62" stroke="#c8a34a" stroke-width="2"/>
-    <circle cx="2" cy="2" r="4" fill="#c8a34a"/><circle cx="2" cy="2" r="7" fill="none" stroke="#c8a34a" stroke-width="0.7" opacity="0.5"/>
-    <path d="M14 2L14 11 M2 14L11 14" stroke="#c8a34a" stroke-width="1.2"/><path d="M24 2L24 7 M2 24L7 24" stroke="#c8a34a" stroke-width="0.8" opacity="0.6"/>
-    <path d="M34 2L34 5 M2 34L5 34" stroke="#c8a34a" stroke-width="0.6" opacity="0.35"/>
-    <circle cx="14" cy="14" r="2" fill="#e7d39a"/><circle cx="22" cy="14" r="1.2" fill="#e7d39a" opacity="0.55"/><circle cx="14" cy="22" r="1.2" fill="#e7d39a" opacity="0.55"/>
-    <path d="M10 10L22 10L10 22Z" fill="none" stroke="#c8a34a" stroke-width="0.6" opacity="0.45"/>
-  </svg>
-  <svg class="corner corner-bl" viewBox="0 0 62 62" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M2 2L62 2" stroke="#c8a34a" stroke-width="2"/><path d="M2 2L2 62" stroke="#c8a34a" stroke-width="2"/>
-    <circle cx="2" cy="2" r="4" fill="#c8a34a"/><circle cx="2" cy="2" r="7" fill="none" stroke="#c8a34a" stroke-width="0.7" opacity="0.5"/>
-    <path d="M14 2L14 11 M2 14L11 14" stroke="#c8a34a" stroke-width="1.2"/><path d="M24 2L24 7 M2 24L7 24" stroke="#c8a34a" stroke-width="0.8" opacity="0.6"/>
-    <path d="M34 2L34 5 M2 34L5 34" stroke="#c8a34a" stroke-width="0.6" opacity="0.35"/>
-    <circle cx="14" cy="14" r="2" fill="#e7d39a"/><circle cx="22" cy="14" r="1.2" fill="#e7d39a" opacity="0.55"/><circle cx="14" cy="22" r="1.2" fill="#e7d39a" opacity="0.55"/>
-    <path d="M10 10L22 10L10 22Z" fill="none" stroke="#c8a34a" stroke-width="0.6" opacity="0.45"/>
-  </svg>
-  <svg class="corner corner-br" viewBox="0 0 62 62" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M2 2L62 2" stroke="#c8a34a" stroke-width="2"/><path d="M2 2L2 62" stroke="#c8a34a" stroke-width="2"/>
-    <circle cx="2" cy="2" r="4" fill="#c8a34a"/><circle cx="2" cy="2" r="7" fill="none" stroke="#c8a34a" stroke-width="0.7" opacity="0.5"/>
-    <path d="M14 2L14 11 M2 14L11 14" stroke="#c8a34a" stroke-width="1.2"/><path d="M24 2L24 7 M2 24L7 24" stroke="#c8a34a" stroke-width="0.8" opacity="0.6"/>
-    <path d="M34 2L34 5 M2 34L5 34" stroke="#c8a34a" stroke-width="0.6" opacity="0.35"/>
-    <circle cx="14" cy="14" r="2" fill="#e7d39a"/><circle cx="22" cy="14" r="1.2" fill="#e7d39a" opacity="0.55"/><circle cx="14" cy="22" r="1.2" fill="#e7d39a" opacity="0.55"/>
-    <path d="M10 10L22 10L10 22Z" fill="none" stroke="#c8a34a" stroke-width="0.6" opacity="0.45"/>
-  </svg>
+  <!-- CORNER ORNAMENTS — markup injected by JS per tier (see getCornerOrnamentSVG) -->
+  <div class="corner corner-tl" id="cornerTL"></div>
+  <div class="corner corner-tr" id="cornerTR"></div>
+  <div class="corner corner-bl" id="cornerBL"></div>
+  <div class="corner corner-br" id="cornerBR"></div>
 
   <!-- MAIN CONTENT -->
   <div class="content-core">
@@ -585,9 +562,12 @@ html, body {
       </div>
       <div class="org-center">
         <div class="oc-l1">AIS Windows</div>
-        <div class="oc-l2" id="zoneDisplay">Channel Sales Excellence</div>
+        <div class="oc-l2">Partner &amp; Channel Recognition Program</div>
       </div>
-      <div class="recognition-pill" id="badgePill">TOP PERFORMER</div>
+      <div class="pill-stack">
+        <div class="recognition-pill" id="badgePill">TOP PERFORMER</div>
+        <div class="zone-tag" id="zoneTag">South Zone</div>
+      </div>
     </div>
 
     <!-- ORNAMENT SEPARATOR -->
@@ -607,24 +587,36 @@ html, body {
       <div class="program-eyebrow" id="programEyebrow">AIS Pinnacle Awards</div>
       <div class="main-title">Certificate of Excellence</div>
       <div class="gold-divider"></div>
-      <div class="tagline" id="taglineText">Monthly Channel Sales Excellence</div>
+      <div class="tagline" id="taglineText">Monthly Excellence in Channel Sales</div>
     </div>
 
     <!-- HONOR BODY -->
     <div class="honor-body">
       <div class="honor-inner">
 
-        <div class="yearly-laurel-left" id="laurelLeft" aria-hidden="true">
-          <svg width="64" height="90" viewBox="0 0 64 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M48 80 Q36 70 28 55 Q32 66 40 72 Q36 60 30 48 Q36 58 44 63 Q40 52 36 40 Q42 50 48 55 Q44 44 42 32 Q48 42 50 52 Q50 40 48 28 Q54 38 54 52 Q56 40 56 28 Q60 40 58 56 Q58 44 54 38 Q56 50 54 62 Q54 52 50 46 Q50 58 52 68 Q48 60 44 56 Q46 68 48 80Z" fill="#a07a18" opacity="0.55"/>
-            <circle cx="48" cy="82" r="4" fill="#a07a18" opacity="0.6"/>
-            <path d="M48 82 L48 90" stroke="#a07a18" stroke-width="1.5" opacity="0.5"/>
-            <path d="M44 86 L52 86" stroke="#a07a18" stroke-width="1" opacity="0.4"/>
-          </svg>
-        </div>
-
         <div class="presented-text">This certificate is proudly presented to</div>
-        <div class="recipient-name" id="certRecipient">Rahul Sharma</div>
+
+        <div class="name-row">
+          <div class="yearly-laurel-left" id="laurelLeft" aria-hidden="true">
+            <svg width="52" height="73" viewBox="0 0 64 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M48 80 Q36 70 28 55 Q32 66 40 72 Q36 60 30 48 Q36 58 44 63 Q40 52 36 40 Q42 50 48 55 Q44 44 42 32 Q48 42 50 52 Q50 40 48 28 Q54 38 54 52 Q56 40 56 28 Q60 40 58 56 Q58 44 54 38 Q56 50 54 62 Q54 52 50 46 Q50 58 52 68 Q48 60 44 56 Q46 68 48 80Z" fill="#a07a18" opacity="0.55"/>
+              <circle cx="48" cy="82" r="4" fill="#a07a18" opacity="0.6"/>
+              <path d="M48 82 L48 90" stroke="#a07a18" stroke-width="1.5" opacity="0.5"/>
+              <path d="M44 86 L52 86" stroke="#a07a18" stroke-width="1" opacity="0.4"/>
+            </svg>
+          </div>
+
+          <div class="recipient-name" id="certRecipient">Rahul Sharma</div>
+
+          <div class="yearly-laurel-right" id="laurelRight" aria-hidden="true">
+            <svg width="52" height="73" viewBox="0 0 64 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M48 80 Q36 70 28 55 Q32 66 40 72 Q36 60 30 48 Q36 58 44 63 Q40 52 36 40 Q42 50 48 55 Q44 44 42 32 Q48 42 50 52 Q50 40 48 28 Q54 38 54 52 Q56 40 56 28 Q60 40 58 56 Q58 44 54 38 Q56 50 54 62 Q54 52 50 46 Q50 58 52 68 Q48 60 44 56 Q46 68 48 80Z" fill="#a07a18" opacity="0.55"/>
+              <circle cx="48" cy="82" r="4" fill="#a07a18" opacity="0.6"/>
+              <path d="M48 82 L48 90" stroke="#a07a18" stroke-width="1.5" opacity="0.5"/>
+              <path d="M44 86 L52 86" stroke="#a07a18" stroke-width="1" opacity="0.4"/>
+            </svg>
+          </div>
+        </div>
 
         <div class="name-underline-wrap">
           <div class="nu-diamond"></div><div class="nu-line"></div><div class="nu-diamond"></div>
@@ -643,15 +635,6 @@ html, body {
         </div>
 
         <div class="extra-note" id="extraNote">Highest Retail Order Booking &nbsp;&#183;&nbsp; Monthly Champion</div>
-
-        <div class="yearly-laurel-right" id="laurelRight" aria-hidden="true">
-          <svg width="64" height="90" viewBox="0 0 64 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M48 80 Q36 70 28 55 Q32 66 40 72 Q36 60 30 48 Q36 58 44 63 Q40 52 36 40 Q42 50 48 55 Q44 44 42 32 Q48 42 50 52 Q50 40 48 28 Q54 38 54 52 Q56 40 56 28 Q60 40 58 56 Q58 44 54 38 Q56 50 54 62 Q54 52 50 46 Q50 58 52 68 Q48 60 44 56 Q46 68 48 80Z" fill="#a07a18" opacity="0.55"/>
-            <circle cx="48" cy="82" r="4" fill="#a07a18" opacity="0.6"/>
-            <path d="M48 82 L48 90" stroke="#a07a18" stroke-width="1.5" opacity="0.5"/>
-            <path d="M44 86 L52 86" stroke="#a07a18" stroke-width="1" opacity="0.4"/>
-          </svg>
-        </div>
 
       </div>
     </div><!-- /honor-body -->
@@ -704,17 +687,17 @@ const THEMES = {
   monthly: {
     tg:'#c8a34a', tgDk:'#b08030', tgLt:'#e7d39a', tgPale:'#f7f0d9', tgGlow:'rgba(200,163,74,0.30)',
     tn:'#0f2f4a', tnDk:'#091f33', tnMd:'#1a4a6e', tnLt:'#26648a',
-    paper:'#fefcf8', recSize:'66px', patternClass:'monthly'
+    paper:'#fefcf8', recSize:'66px', patternClass:'monthly', uw:'150mm'
   },
   quarterly: {
     tg:'#b8941f', tgDk:'#9e7c10', tgLt:'#d4b85c', tgPale:'#f4edd6', tgGlow:'rgba(184,148,31,0.28)',
     tn:'#0d2840', tnDk:'#081a2c', tnMd:'#153d60', tnLt:'#1f5780',
-    paper:'#fdfbf5', recSize:'70px', patternClass:'quarterly'
+    paper:'#fdfbf5', recSize:'70px', patternClass:'quarterly', uw:'165mm'
   },
   yearly: {
     tg:'#a07a18', tgDk:'#8b6814', tgLt:'#c9a63a', tgPale:'#f2e9d2', tgGlow:'rgba(160,122,24,0.32)',
     tn:'#091f33', tnDk:'#041221', tnMd:'#112e4a', tnLt:'#1a4265',
-    paper:'#fdf8ef', recSize:'74px', patternClass:'yearly'
+    paper:'#fdf8ef', recSize:'74px', patternClass:'yearly', uw:'180mm'
   }
 };
 
@@ -723,7 +706,7 @@ const SIGNATORIES = {
   monthly: {
     sigFile:'Sanjug.png', sigName:'Sanju G', sigTitle:'Head \u2013 Channel Management',
     pillText:'TOP PERFORMER',
-    tagline:'Monthly Channel Sales Excellence',
+    tagline:'Monthly Excellence in Channel Sales',
     badgeLabel:'Monthly Winner',
     extraNote:'Highest Retail Order Booking \u00A0\u00B7\u00A0 Monthly Champion',
     fyLabel:'Monthly Recognition', titleOrnament:'star', code:'M',
@@ -735,7 +718,7 @@ const SIGNATORIES = {
   quarterly: {
     sigFile:'Sandeepg.png', sigName:'Sandeep Gupta', sigTitle:'National Sales Head',
     pillText:'QUARTERLY CHAMPION',
-    tagline:'Quarterly Channel Sales Excellence',
+    tagline:'Quarterly Excellence in Channel Sales',
     badgeLabel:'Quarterly Winner',
     extraNote:'Leading Order Book Contributor \u00A0\u00B7\u00A0 Quarterly Star',
     fyLabel:'Quarterly Recognition', titleOrnament:'diamond', code:'Q',
@@ -747,7 +730,7 @@ const SIGNATORIES = {
   yearly: {
     sigFile:'Naveeng.png', sigName:'Naveen Karki', sigTitle:'Business Head',
     pillText:'PAN INDIA No. 1',
-    tagline:'Annual Channel Sales Excellence',
+    tagline:'Annual Excellence in Channel Sales, Pan India',
     badgeLabel:'Annual Winner',
     extraNote:'Highest Retail Order Booking, Pan India',
     fyLabel:'Annual Recognition', titleOrnament:'laurel', code:'A',
@@ -840,22 +823,53 @@ function applyTheme(type){
   cert.style.setProperty('--tn-lt', t.tnLt);
   cert.style.setProperty('--paper', t.paper);
   cert.style.setProperty('--rec-size', t.recSize);
+  cert.style.setProperty('--uw', t.uw);
   cert.style.background = t.paper;
   document.getElementById('certPattern').className = 'cert-pattern '+t.patternClass;
   document.querySelector('.frame-outer').style.borderColor = 'rgba('+hexRgb(t.tg)+',0.52)';
   document.querySelector('.frame-middle').style.borderColor = 'rgba('+hexRgb(t.tg)+',0.22)';
+
+  /* Tier-adaptive gold tints — previously the pill, tier badge, and highlighted
+     phrase all used a hardcoded monthly-gold rgba regardless of tier selected. */
+  const rgb = hexRgb(t.tg);
+  cert.style.setProperty('--tg-fill-strong', 'rgba('+rgb+',0.16)');
+  cert.style.setProperty('--tg-fill-soft',   'rgba('+rgb+',0.05)');
+  cert.style.setProperty('--tg-border-tint', 'rgba('+rgb+',0.5)');
+
+  /* Corner ornaments — previously static SVGs hardcoded to monthly gold on every
+     tier. Now generated per tier so Quarterly/Yearly corners match their own gold. */
+  const cornerSVG = getCornerOrnamentSVG(t.tg, t.tgLt);
+  ['cornerTL','cornerTR','cornerBL','cornerBR'].forEach(id=>{
+    document.getElementById(id).innerHTML = cornerSVG;
+  });
 }
 function hexRgb(hex){
   const r = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return r ? parseInt(r[1],16)+','+parseInt(r[2],16)+','+parseInt(r[3],16) : '200,163,74';
 }
 
+/* Corner ornament — one shape, reused at all 4 corners (CSS transforms mirror it) */
+function getCornerOrnamentSVG(gold, goldLt){
+  return '<svg viewBox="0 0 62 62" fill="none" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M2 2L62 2" stroke="'+gold+'" stroke-width="2"/><path d="M2 2L2 62" stroke="'+gold+'" stroke-width="2"/>'+
+    '<circle cx="2" cy="2" r="4" fill="'+gold+'"/><circle cx="2" cy="2" r="7" fill="none" stroke="'+gold+'" stroke-width="0.7" opacity="0.5"/>'+
+    '<path d="M14 2L14 11 M2 14L11 14" stroke="'+gold+'" stroke-width="1.2"/><path d="M24 2L24 7 M2 24L7 24" stroke="'+gold+'" stroke-width="0.8" opacity="0.6"/>'+
+    '<path d="M34 2L34 5 M2 34L5 34" stroke="'+gold+'" stroke-width="0.6" opacity="0.35"/>'+
+    '<circle cx="14" cy="14" r="2" fill="'+goldLt+'"/><circle cx="22" cy="14" r="1.2" fill="'+goldLt+'" opacity="0.55"/><circle cx="14" cy="22" r="1.2" fill="'+goldLt+'" opacity="0.55"/>'+
+    '<path d="M10 10L22 10L10 22Z" fill="none" stroke="'+gold+'" stroke-width="0.6" opacity="0.45"/></svg>';
+}
+
 /* ---- Helpers: year / fiscal year / serial ---- */
 const MONTHS = {jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
 
 function extractYear(str){
-  const m = (str||'').match(/(19|20)\d{2}/);
-  return m ? parseInt(m[0],10) : new Date().getFullYear();
+  const s = str||'';
+  const full = s.match(/(19|20)\d{2}/);
+  if(full) return parseInt(full[0],10);
+  /* Shorthand like "FY26" / "Q4 FY26" — no 4-digit year present */
+  const fy = s.match(/fy\s*['\u2019]?\s*(\d{2})\b/i);
+  if(fy) return 2000 + parseInt(fy[1],10);
+  return new Date().getFullYear();
 }
 function extractMonth(str){
   const s = (str||'').toLowerCase();
@@ -918,8 +932,13 @@ function updateCertificate(){
 
   document.getElementById('badgePill').textContent   = sig.pillText;
   document.getElementById('taglineText').textContent = sig.tagline;
-  document.getElementById('zoneDisplay').innerHTML   =
-    'Channel Sales Excellence &nbsp;&#183;&nbsp; '+zone+' Zone';
+
+  /* Zone now lives beside the tier pill (was tiny, easy-to-miss text near the logo).
+     Skip it for Yearly + Pan India since the pill itself already says "Pan India". */
+  const zoneTag = document.getElementById('zoneTag');
+  const redundant = (type === 'yearly' && zone === 'Pan India');
+  zoneTag.style.display = redundant ? 'none' : '';
+  zoneTag.textContent = zone + ' Zone';
 
   document.getElementById('certRecipient').textContent = name;
   fitName(type, name);
